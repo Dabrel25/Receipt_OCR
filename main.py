@@ -30,18 +30,21 @@ async def upload_receipt(file: UploadFile = File(...)):
         document = result.document
         text = document.export_to_markdown()
 
-        # 👇 Print extracted text
+        # Print extracted text
         print("📄 Extracted Text:\n", text)
 
         # Step 3: Parse with GPT
         receipt_data = parse_receipt_with_gpt(text)
 
-        # 👇 Print parsed JSON
+        # Print parsed JSON
         print("🤖 Parsed Receipt:\n", receipt_data)
 
         with open(CSV_OUTPUT, mode='w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=["merchant", "date", "item", "amount"])
-            writer.writeheader()
+
+            if not os.path.exists(CSV_OUTPUT):
+                writer.writeheader()
+
             writer.writerow(receipt_data)
 
 
