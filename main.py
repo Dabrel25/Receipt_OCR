@@ -39,7 +39,7 @@ async def upload_receipt(file: UploadFile = File(...)):
         # Print parsed JSON
         print("🤖 Parsed Receipt:\n", receipt_data)
 
-        with open(CSV_OUTPUT, mode='w', newline='') as csv_file:
+        with open(CSV_OUTPUT, mode='a', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=["merchant", "date", "item", "amount"])
 
             if not os.path.exists(CSV_OUTPUT):
