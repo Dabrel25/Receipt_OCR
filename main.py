@@ -10,7 +10,6 @@ from docling.document_converter import DocumentConverter
 
 app = FastAPI()
 converter = DocumentConverter()
-
 UPLOAD_DIR = "uploaded_files"
 CSV_OUTPUT = "output.csv"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
