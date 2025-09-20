@@ -19,7 +19,10 @@ class OpenAITokenizerWrapper(PreTrainedTokenizerBase):
         """
         super().__init__(model_max_length=max_length, **kwargs)
         self.tokenizer = get_encoding(model_name)
-        self._vocab_size = self.tokenizer.max_token_value
+        # ``max_token_value`` returns the highest token id. The actual
+        # vocabulary size is ``n_vocab`` which is 1 greater. Using the
+        # wrong attribute results in an off‑by‑one ``vocab_size``.
+        self._vocab_size = self.tokenizer.n_vocab
 
     def tokenize(self, text: str, **kwargs) -> List[str]:
         """Main method used by HybridChunker."""
